@@ -15,7 +15,7 @@ from frappe.utils import cint, now_datetime
 from dsc_bridge import __version__
 
 # Home of the project: README, connector downloads (Releases), issues
-REPO_URL = "https://github.com/dsc-bridge/dsc_bridge"
+REPO_URL = "https://github.com/dscbridge/dsc_bridge"
 MAX_PDF_BYTES = 50 * 1024 * 1024
 
 

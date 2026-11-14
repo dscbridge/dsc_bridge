@@ -10,11 +10,26 @@
 #                 pip download -r requirements-kit.txt -d wheels --platform win_amd64 --python-version 311 --only-binary=:all:
 #                 for w in wheels/*.whl; do unzip -q -o "$w" -d lib; done
 # Point KIT_PY_DIR / KIT_LIB_DIR at them (default: ./kit_parts/python and ./kit_parts/lib).
+# `build_kits.sh --download` fetches both parts itself (python.org embeddable 3.11.9 + wheels from PyPI), as the
+# release workflow does.
 set -e
 cd "$(dirname "$0")"
 VERSION=$(sed -n 's/^VERSION = "\(.*\)"/\1/p' connector.py)
 PY_DIR="${KIT_PY_DIR:-kit_parts/python}"
 LIB_DIR="${KIT_LIB_DIR:-kit_parts/lib}"
+PY_VERSION="${KIT_PYTHON_VERSION:-3.11.9}"
+
+if [ "$1" = "--download" ]; then
+  rm -rf kit_parts && mkdir -p kit_parts/python kit_parts/lib kit_parts/wheels
+  curl -fsSL -o kit_parts/python-embed.zip "https://www.python.org/ftp/python/${PY_VERSION}/python-${PY_VERSION}-embed-amd64.zip"
+  unzip -q kit_parts/python-embed.zip -d kit_parts/python
+  test -f kit_parts/python/pythonw.exe
+  python3 -m pip download -q -r requirements-kit.txt -d kit_parts/wheels --platform win_amd64 --python-version 311 --only-binary=:all:
+  for w in kit_parts/wheels/*.whl; do unzip -q -o "$w" -d kit_parts/lib; done
+  test -d kit_parts/lib/pyhanko
+  PY_DIR=kit_parts/python
+  LIB_DIR=kit_parts/lib
+fi
 rm -rf dist build && mkdir -p dist build
 
 # Mac

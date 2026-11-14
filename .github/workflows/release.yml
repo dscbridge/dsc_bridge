@@ -1,0 +1,30 @@
+name: Release kits
+
+# Tag a version (v1.0.0) and push it: this builds the connector kits and attaches them to the GitHub release.
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  kits:
+    name: Build and publish the connector kits
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Build the kits (downloads the embeddable Python and the Windows wheels)
+        run: bash connector/build_kits.sh --download
+      - name: List
+        run: ls -la connector/dist
+      - name: Attach to the release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: connector/dist/*.zip
+          generate_release_notes: true

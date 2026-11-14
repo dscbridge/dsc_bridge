@@ -11,7 +11,7 @@ frappe.ui.form.on("DSC Bridge Settings", {
 
 	refresh(frm) {
 		const boot = frappe.boot.dsc_bridge || {};
-		const repo = boot.repo_url || "https://github.com/dsc-bridge/dsc_bridge";
+		const repo = boot.repo_url || "https://github.com/dscbridge/dsc_bridge";
 		const url = frappe.utils.escape_html(frm.doc.connector_url || "http://127.0.0.1:47831");
 		frm.get_field("connector_help").$wrapper.html(`
 			<p>${__("Every user who signs needs the small <b>DSC Bridge Connector</b> on their own computer: it reads the USB DSC token through the token's driver and signs the PDF there. The token's private key never leaves the token; the PIN never leaves that computer.")}</p>

@@ -15,7 +15,7 @@
 	if (!DOCTYPES.length) return;
 	const CONNECTOR = (CFG.connector_url || "http://127.0.0.1:47831").replace(/\/+$/, "");
 	const SUFFIX = CFG.file_suffix == null ? "-DSC" : CFG.file_suffix;
-	const REPO = CFG.repo_url || "https://github.com/dsc-bridge/dsc_bridge";
+	const REPO = CFG.repo_url || "https://github.com/dscbridge/dsc_bridge";
 
 	function not_running() {
 		return (
