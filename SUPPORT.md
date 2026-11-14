@@ -13,9 +13,5 @@ Please do not send PINs, passwords or private keys. Nobody needs them to help yo
 
 The app and the connector are free and open source. If you want us to set everything up for you — the
 connector on your signers' computers, the signature box on your own print format, a first signed invoice
-with your real token, and a walkthrough for your team — a one-time remote setup is **USD 250** (pay the INR
-equivalent by UPI). Write to the support e-mail with your site name and preferred time.
-
-UPI ID: `frappe.erp@oksbi`
-
-<img src="docs/upi-qr.png" width="180" alt="UPI QR for frappe.erp@oksbi">
+with your real token, and a walkthrough for your team — a one-time remote setup is **USD 250**. Write to the support
+e-mail with your site name and preferred time; you get an invoice with the payment details.
