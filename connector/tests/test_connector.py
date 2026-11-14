@@ -121,6 +121,14 @@ def test_label_box_found_above_the_label(monkeypatch):
 	assert x2 - x1 <= connector.STAMP_WIDTH and x2 > 430
 
 
+def test_label_box_ignores_text_drawn_after_the_label(monkeypatch):
+	# a footer line after the signature label (drawn later, far left) must not pull the box to the left
+	monkeypatch.setitem(connector.CFG, "stamp_box", "auto")
+	pdf = minimal_pdf([("For Example Traders", 420, 120, 9), ("Authorised Signatory", 444, 50, 9), ("E. & O.E.", 46, 30, 7)])
+	page, (x1, y1, x2, y2) = connector.sign_spots(reader(pdf))[0]
+	assert x2 > 444 and x2 - x1 == connector.STAMP_WIDTH
+
+
 def test_sign_spots_fallback_bottom_right_without_label(monkeypatch):
 	monkeypatch.setitem(connector.CFG, "stamp_box", "auto")
 	pdf = minimal_pdf([("Hello", 40, 700, 12)])

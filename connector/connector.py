@@ -660,7 +660,7 @@ def label_box(page):
             break
     else:
         return None
-    first, last = letters[at][1], letters[min(at + len(label), len(letters) - 1)][1]
+    first, last = letters[at][1], letters[at + len(label) - 1][1]   # first and last letter of the label
     x2 = last[1] + last[3] * 0.55
     x1 = max(x2 - STAMP_WIDTH, 0)
     floor = first[2] + first[3] * 0.85 + 1
