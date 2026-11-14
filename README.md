@@ -9,6 +9,15 @@ A DSC (Digital Signature Certificate on a Class 3 USB token) cannot be read by a
 the token where it is. A small **Connector** on the user's computer reads the token through the token's own driver
 and signs the PDF there. The ERP only makes the PDF and stores the signed result.
 
+## Pricing
+
+- **App: free.** Install it from the Frappe Cloud Marketplace (or with bench) at no charge; the code is open source (MIT).
+- **One-time setup & support package: USD 250** (pay in INR by UPI `frappe.erp@oksbi`): DSC Bridge set up on your
+  site, the connector installed on your signers' computers (Windows / Mac, any USB token), the signature box placed on
+  your own invoice print format, the first invoice signed with your real token together with you, a walkthrough for
+  your billing team, and 12 months of e-mail support. Write to the support e-mail with your site address for the
+  invoice (details in [SUPPORT.md](SUPPORT.md)).
+
 ## What it does
 
 - **Sign with DSC** button on any document type you choose (Sales Invoice is pre-configured with ERPNext), on the
