@@ -1,0 +1,166 @@
+{
+ "actions": [],
+ "autoname": "DSC-SIGN-.#####",
+ "creation": "2026-11-14 12:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "reference_doctype",
+  "reference_name",
+  "signed_by",
+  "signed_on",
+  "column_break_1",
+  "signer_name",
+  "signer_org",
+  "certificate_serial",
+  "certificate_valid_to",
+  "document_section",
+  "print_format",
+  "reason",
+  "location",
+  "column_break_2",
+  "file",
+  "file_size",
+  "connector_version"
+ ],
+ "fields": [
+  {
+   "fieldname": "reference_doctype",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Document Type",
+   "options": "DocType",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "reference_name",
+   "fieldtype": "Dynamic Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Document",
+   "options": "reference_doctype",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "signed_by",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Signed By (User)",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "signed_on",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Signed On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "signer_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Signer (Certificate Name)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "signer_org",
+   "fieldtype": "Data",
+   "label": "Signer Organisation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "certificate_serial",
+   "fieldtype": "Data",
+   "label": "Certificate Serial",
+   "read_only": 1
+  },
+  {
+   "fieldname": "certificate_valid_to",
+   "fieldtype": "Date",
+   "label": "Certificate Valid Till",
+   "read_only": 1
+  },
+  {
+   "fieldname": "document_section",
+   "fieldtype": "Section Break",
+   "label": "Signed PDF"
+  },
+  {
+   "fieldname": "print_format",
+   "fieldtype": "Data",
+   "label": "Print Format",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reason",
+   "fieldtype": "Data",
+   "label": "Reason",
+   "read_only": 1
+  },
+  {
+   "fieldname": "location",
+   "fieldtype": "Data",
+   "label": "Location",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "file",
+   "fieldtype": "Data",
+   "label": "Signed PDF",
+   "read_only": 1,
+   "options": "URL"
+  },
+  {
+   "fieldname": "file_size",
+   "fieldtype": "Int",
+   "label": "File Size (Bytes)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "connector_version",
+   "fieldtype": "Data",
+   "label": "Connector Version",
+   "read_only": 1
+  }
+ ],
+ "in_create": 1,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-11-14 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "DSC Bridge",
+ "name": "DSC Sign Log",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "reference_name",
+ "track_changes": 0
+}

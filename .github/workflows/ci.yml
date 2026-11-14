@@ -1,22 +1,42 @@
-
 name: CI
 
 on:
   push:
     branches:
+      - version-15
       - develop
   pull_request:
 
 concurrency:
-  group: develop-dsc_bridge-${{ github.event.number }}
+  group: ci-dsc_bridge-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+  connector:
+    name: Connector (unit tests + SoftHSM signing)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install SoftHSM and OpenSC
+        run: sudo apt-get update && sudo apt-get install -y softhsm2 opensc openssl
+      - name: Install the connector's libraries
+        run: pip install -r connector/requirements.txt pytest
+      - name: Unit tests
+        run: pytest connector/tests -q
+      - name: Sign a PDF end to end with a software token
+        run: bash connector/tests/softhsm/run_sign_test.sh
+        env:
+          SOFTHSM_LIB: /usr/lib/softhsm/libsofthsm2.so
+
   tests:
+    name: Frappe app (install + tests)
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-    name: Server
 
     services:
       redis-cache:
@@ -37,22 +57,17 @@ jobs:
 
     steps:
       - name: Clone
-        uses: actions/checkout@v3
-
-      - name: Find tests
-        run: |
-          echo "Finding tests"
-          grep -rn "def test" > /dev/null
+        uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.11'
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           check-latest: true
 
       - name: Cache pip
@@ -77,12 +92,12 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: Install MariaDB Client
-        run: sudo apt-get install mariadb-client-10.6
+        run: sudo apt-get update && sudo apt-get install -y mariadb-client
 
       - name: Setup
         run: |
           pip install frappe-bench
-          bench init --skip-redis-config-generation --skip-assets --python "$(which python)" ~/frappe-bench
+          bench init --skip-redis-config-generation --skip-assets --frappe-branch version-15 --python "$(which python)" ~/frappe-bench
           mariadb --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL character_set_server = 'utf8mb4'"
           mariadb --host 127.0.0.1 --port 3306 -u root -proot -e "SET GLOBAL collation_server = 'utf8mb4_unicode_ci'"
 

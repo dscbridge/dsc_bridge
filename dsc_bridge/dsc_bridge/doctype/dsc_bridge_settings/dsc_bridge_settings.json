@@ -1,0 +1,138 @@
+{
+ "actions": [],
+ "creation": "2026-11-14 12:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "enabled",
+  "connector_url",
+  "column_break_1",
+  "file_suffix",
+  "keep_log",
+  "documents_section",
+  "document_types",
+  "defaults_section",
+  "default_reason",
+  "default_location",
+  "column_break_2",
+  "location_field",
+  "connector_section",
+  "connector_help",
+  "test_connector"
+ ],
+ "fields": [
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled"
+  },
+  {
+   "default": "http://127.0.0.1:47831",
+   "description": "Address of the DSC Bridge Connector on each user's own computer. Keep the default unless you changed the port in its config.json.",
+   "fieldname": "connector_url",
+   "fieldtype": "Data",
+   "label": "Connector URL",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "-DSC",
+   "description": "The signed PDF is attached as &lt;document name&gt;&lt;suffix&gt;.pdf",
+   "fieldname": "file_suffix",
+   "fieldtype": "Data",
+   "label": "Signed File Suffix"
+  },
+  {
+   "default": "1",
+   "description": "One DSC Sign Log entry per signing: who signed which document, with which certificate.",
+   "fieldname": "keep_log",
+   "fieldtype": "Check",
+   "label": "Keep a DSC Sign Log"
+  },
+  {
+   "fieldname": "documents_section",
+   "fieldtype": "Section Break",
+   "label": "Documents That Can Be Signed"
+  },
+  {
+   "description": "Users who may print these documents see <b>Sign with DSC</b> on the form and on the print page. Reload the browser page after a change here.",
+   "fieldname": "document_types",
+   "fieldtype": "Table",
+   "label": "Document Types",
+   "options": "DSC Bridge Document Type"
+  },
+  {
+   "fieldname": "defaults_section",
+   "fieldtype": "Section Break",
+   "label": "Signature Defaults"
+  },
+  {
+   "default": "Digitally signed",
+   "description": "Written into the signature. A document type row above can override it.",
+   "fieldname": "default_reason",
+   "fieldtype": "Data",
+   "label": "Default Reason"
+  },
+  {
+   "description": "Written into the signature when the document gives no location.",
+   "fieldname": "default_location",
+   "fieldtype": "Data",
+   "label": "Default Location"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "place_of_supply",
+   "description": "When the document has this field, its value (without a leading state code such as 07-) is offered as the Location.",
+   "fieldname": "location_field",
+   "fieldtype": "Data",
+   "label": "Location From Field"
+  },
+  {
+   "fieldname": "connector_section",
+   "fieldtype": "Section Break",
+   "label": "Connector on the User's Computer"
+  },
+  {
+   "fieldname": "connector_help",
+   "fieldtype": "HTML",
+   "label": "Connector"
+  },
+  {
+   "fieldname": "test_connector",
+   "fieldtype": "Button",
+   "label": "Check the Connector on This Computer"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-11-14 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "DSC Bridge",
+ "name": "DSC Bridge Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

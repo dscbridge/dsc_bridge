@@ -4,4 +4,10 @@
 *.swp
 tags
 node_modules
-__pycache__
+__pycache__connector/config.json
+connector/connector.log
+connector/dist
+connector/build
+connector/kit_parts
+connector/venv
+.pytest_cache

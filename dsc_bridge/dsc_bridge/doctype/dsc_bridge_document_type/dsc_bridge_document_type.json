@@ -1,0 +1,62 @@
+{
+ "actions": [],
+ "creation": "2026-11-14 12:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "document_type",
+  "print_format",
+  "submitted_only",
+  "reason"
+ ],
+ "fields": [
+  {
+   "columns": 3,
+   "fieldname": "document_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Document Type",
+   "options": "DocType",
+   "reqd": 1
+  },
+  {
+   "columns": 3,
+   "description": "Offered first in the sign dialog; the user can pick another.",
+   "fieldname": "print_format",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Default Print Format",
+   "options": "Print Format"
+  },
+  {
+   "columns": 2,
+   "default": "1",
+   "description": "Sign submitted documents only (a draft can still change).",
+   "fieldname": "submitted_only",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Submitted Only"
+  },
+  {
+   "columns": 2,
+   "description": "Reason written into the signature, e.g. Tax Invoice. Blank = the default reason.",
+   "fieldname": "reason",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Reason"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-11-14 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "DSC Bridge",
+ "name": "DSC Bridge Document Type",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
