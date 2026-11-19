@@ -97,12 +97,14 @@ KNOWN_LIBS = {
 
 
 def load_config():
+    # CONFIG_PATH is fixed when the program starts (config.json next to the connector, or DSC_CONFIG set by whoever
+    # starts it); nothing from an HTTP request ever reaches a file path in this program.
     cfg = dict(DEFAULT_CONFIG)
     if os.path.exists(CONFIG_PATH):
-        with open(CONFIG_PATH, encoding="utf-8") as f:
+        with open(CONFIG_PATH, encoding="utf-8") as f:  # nosemgrep: frappe-security-file-traversal
             cfg.update(json.load(f))
     else:
-        with open(CONFIG_PATH, "w", encoding="utf-8") as f:
+        with open(CONFIG_PATH, "w", encoding="utf-8") as f:  # nosemgrep: frappe-security-file-traversal
             json.dump(DEFAULT_CONFIG, f, indent=2)
     if os.environ.get("DSC_PKCS11_LIB"):
         cfg["pkcs11_lib"] = os.environ["DSC_PKCS11_LIB"]

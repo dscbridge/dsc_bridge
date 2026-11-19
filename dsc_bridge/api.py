@@ -50,7 +50,15 @@ def get_settings():
 
 
 @frappe.whitelist()
-def attach_signed_pdf(doctype, name, print_format=None, reason=None, location=None, signer=None, cert=None):
+def attach_signed_pdf(
+	doctype: str,
+	name: str,
+	print_format: str | None = None,
+	reason: str | None = None,
+	location: str | None = None,
+	signer: str | None = None,
+	cert: str | None = None,
+):
 	"""Attach the signed PDF (multipart field "file") to the document and write a DSC Sign Log entry."""
 	upload = frappe.request.files.get("file") if getattr(frappe, "request", None) and frappe.request.files else None
 	if upload is None:
@@ -68,7 +76,16 @@ def attach_signed_pdf(doctype, name, print_format=None, reason=None, location=No
 	)
 
 
-def attach(doctype, name, content, print_format=None, reason=None, location=None, signer=None, cert=None):
+def attach(
+	doctype: str,
+	name: str,
+	content: bytes,
+	print_format: str | None = None,
+	reason: str | None = None,
+	location: str | None = None,
+	signer: str | None = None,
+	cert: str | dict | None = None,
+):
 	"""Attach signed PDF bytes to a document the user may print, and log it. Used by attach_signed_pdf and tests."""
 	settings = boot_settings()
 	if not settings["enabled"]:

@@ -6,8 +6,8 @@ app_email = "dscbridge@example.com"
 app_license = "mit"
 app_logo_url = "/assets/dsc_bridge/images/logo.svg"
 
-# Works on plain Frappe; ERPNext is not required (Sales Invoice is pre-configured when it is there).
-required_apps = ["frappe"]
+# Works on plain Frappe; ERPNext is not required (Sales Invoice is pre-configured when it is there), so no
+# required_apps.
 
 # The "Sign with DSC" button on the configured document types (form + print page).
 # A plain file, no bundle: it needs no asset build and no extra request per form.
