@@ -13,9 +13,14 @@ class DSCBridgeSettings(Document):
 			if row.document_type in seen:
 				frappe.throw(_("Row {0}: {1} is listed twice.").format(row.idx, row.document_type))
 			seen.add(row.document_type)
-			if row.print_format and frappe.db.get_value("Print Format", row.print_format, "doc_type") != row.document_type:
+			if (
+				row.print_format
+				and frappe.db.get_value("Print Format", row.print_format, "doc_type") != row.document_type
+			):
 				frappe.throw(
-					_("Row {0}: Print Format {1} is not for {2}.").format(row.idx, row.print_format, row.document_type)
+					_("Row {0}: Print Format {1} is not for {2}.").format(
+						row.idx, row.print_format, row.document_type
+					)
 				)
 
 	def on_update(self):

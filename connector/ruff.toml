@@ -1,0 +1,4 @@
+# The connector runs on the user's own computer, not inside Frappe. The Mac kit uses the Mac's own
+# python3 (3.9 or newer, see mac/install.command), so ruff checks this folder as Python 3.9 code.
+extend = "../pyproject.toml"
+target-version = "py39"

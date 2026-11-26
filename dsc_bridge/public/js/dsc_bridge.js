@@ -21,8 +21,12 @@
 		return (
 			__("The DSC Bridge Connector is not running on this computer.") +
 			"<br>" +
-			__("Start it (it runs at {0}) and plug in the DSC token, then try again.", [frappe.utils.escape_html(CONNECTOR)]) +
-			`<br><a href="${REPO}/releases/latest" target="_blank" rel="noopener">${__("Download the connector")}</a>`
+			__("Start it (it runs at {0}) and plug in the DSC token, then try again.", [
+				frappe.utils.escape_html(CONNECTOR),
+			]) +
+			`<br><a href="${REPO}/releases/latest" target="_blank" rel="noopener">${__(
+				"Download the connector"
+			)}</a>`
 		);
 	}
 
@@ -40,7 +44,8 @@
 
 	function can_sign(frm) {
 		// the print page hands over a plain {doctype, docname, doc, meta} object, not a full form
-		if (!frm || !frm.doc || frm.doc.__islocal || (typeof frm.is_new === "function" && frm.is_new())) return false;
+		if (!frm || !frm.doc || frm.doc.__islocal || (typeof frm.is_new === "function" && frm.is_new()))
+			return false;
 		if (!DOCTYPES.includes(frm.doctype)) return false;
 		if (frm.doc.docstatus === 2) return false;
 		if (rule_of(frm.doctype).submitted_only && frm.doc.docstatus !== 1) return false;
@@ -68,7 +73,8 @@
 		if (current && list.includes(current)) return current;
 		const preset = rule_of(frm.doctype).print_format;
 		if (preset && list.includes(preset)) return preset;
-		if (frm.meta.default_print_format && list.includes(frm.meta.default_print_format)) return frm.meta.default_print_format;
+		if (frm.meta.default_print_format && list.includes(frm.meta.default_print_format))
+			return frm.meta.default_print_format;
 		return list[0];
 	}
 
@@ -90,7 +96,9 @@
 		const esc = frappe.utils.escape_html;
 		const c = st.cert;
 		if (!c) {
-			return `<div class="text-muted">${__("Token")}: ${esc((st.token && st.token.label) || "-")}</div>`;
+			return `<div class="text-muted">${__("Token")}: ${esc(
+				(st.token && st.token.label) || "-"
+			)}</div>`;
 		}
 		const who = esc(c.cn || c.org || "?");
 		const till = esc(c.valid_to || "");
@@ -159,13 +167,19 @@
 		if (!r3.ok) {
 			let msg = "";
 			try {
-				msg = (JSON.parse(j._server_messages || "[]").map((m) => JSON.parse(m).message) || []).join("<br>");
+				msg = (JSON.parse(j._server_messages || "[]").map((m) => JSON.parse(m).message) || []).join(
+					"<br>"
+				);
 			} catch (e) {
 				msg = "";
 			}
 			throw new Error(msg || __("The signed PDF could not be attached (HTTP {0}).", [r3.status]));
 		}
-		return { file_url: j.message && j.message.file_url, signer: signer, fname: (j.message && j.message.file_name) || fname };
+		return {
+			file_url: j.message && j.message.file_url,
+			signer: signer,
+			fname: (j.message && j.message.file_name) || fname,
+		};
 	}
 
 	function open_dialog(frm, current_format, letterhead, after) {
@@ -182,7 +196,11 @@
 			.then((st) => {
 				frappe.dom.unfreeze();
 				if (!st || (!st.ok && !st.cert)) {
-					frappe.msgprint({ title: __("DSC"), indicator: "red", message: (st && st.error) || not_running() });
+					frappe.msgprint({
+						title: __("DSC"),
+						indicator: "red",
+						message: (st && st.error) || not_running(),
+					});
 					return;
 				}
 				const d = new frappe.ui.Dialog({
@@ -193,7 +211,9 @@
 							fieldname: "who",
 							options:
 								signer_line(st) +
-								(st.error ? `<div class="text-danger">${frappe.utils.escape_html(st.error)}</div>` : ""),
+								(st.error
+									? `<div class="text-danger">${frappe.utils.escape_html(st.error)}</div>`
+									: ""),
 						},
 						{
 							fieldtype: "Select",
@@ -210,11 +230,23 @@
 							fieldname: "pin",
 							label: __("DSC PIN"),
 							reqd: 1,
-							description: __("Used once on this computer to sign. Not saved anywhere, never sent to the server."),
+							description: __(
+								"Used once on this computer to sign. Not saved anywhere, never sent to the server."
+							),
 						},
 						{ fieldtype: "Column Break" },
-						{ fieldtype: "Data", fieldname: "reason", label: __("Reason"), default: default_reason(frm) },
-						{ fieldtype: "Data", fieldname: "location", label: __("Location"), default: default_location(frm) },
+						{
+							fieldtype: "Data",
+							fieldname: "reason",
+							label: __("Reason"),
+							default: default_reason(frm),
+						},
+						{
+							fieldtype: "Data",
+							fieldname: "location",
+							label: __("Location"),
+							default: default_location(frm),
+						},
 					],
 					primary_action_label: __("Sign and Attach"),
 					primary_action(v) {
@@ -223,14 +255,24 @@
 							.then((r) => {
 								d.hide();
 								frappe.show_alert(
-									{ message: __("Signed by {0} and attached as {1}", [r.signer || "DSC", r.fname]), indicator: "green" },
+									{
+										message: __("Signed by {0} and attached as {1}", [
+											r.signer || "DSC",
+											r.fname,
+										]),
+										indicator: "green",
+									},
 									8
 								);
 								if (after) after(r);
 							})
 							.catch((e) => {
 								d.get_primary_btn().prop("disabled", false).text(__("Sign and Attach"));
-								frappe.msgprint({ title: __("DSC"), indicator: "red", message: e.message || String(e) });
+								frappe.msgprint({
+									title: __("DSC"),
+									indicator: "red",
+									message: e.message || String(e),
+								});
 							});
 					},
 				});

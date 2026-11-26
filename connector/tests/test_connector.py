@@ -10,7 +10,9 @@ def minimal_pdf(texts, size=(595, 842)):
 	"""A one-page PDF whose content stream shows each (text, x, y, pt) in Helvetica, like a printed invoice."""
 	content = (
 		b"BT "
-		+ b" ".join(b"/F1 %d Tf 1 0 0 1 %d %d Tm (%s) Tj" % (pt, x, y, t.encode("latin1")) for t, x, y, pt in texts)
+		+ b" ".join(
+			b"/F1 %d Tf 1 0 0 1 %d %d Tm (%s) Tj" % (pt, x, y, t.encode("latin1")) for t, x, y, pt in texts
+		)
 		+ b" ET"
 	)
 	objs = [
@@ -98,7 +100,9 @@ def test_fit_name_fills_the_box():
 
 
 def test_fit_details_never_overflows():
-	size, lines = connector.fit_details(["Digitally signed by A", "DN: cn=A c=IN o=B", "Date: 2026-01-01"], 120, 40)
+	size, lines = connector.fit_details(
+		["Digitally signed by A", "DN: cn=A c=IN o=B", "Date: 2026-01-01"], 120, 40
+	)
 	assert 3.5 <= size <= 7.0
 	assert len(lines) * size * 1.18 <= 40.01
 
@@ -112,7 +116,9 @@ def test_stamp_labels_from_config(monkeypatch):
 
 def test_label_box_found_above_the_label(monkeypatch):
 	monkeypatch.setitem(connector.CFG, "stamp_box", "auto")
-	pdf = minimal_pdf([("For Example Traders", 420, 120, 9), ("Authorised Signatory", 430, 50, 9), ("Total", 40, 300, 9)])
+	pdf = minimal_pdf(
+		[("For Example Traders", 420, 120, 9), ("Authorised Signatory", 430, 50, 9), ("Total", 40, 300, 9)]
+	)
 	spots = connector.sign_spots(reader(pdf))
 	assert len(spots) == 1
 	page, (x1, y1, x2, y2) = spots[0]
@@ -124,7 +130,9 @@ def test_label_box_found_above_the_label(monkeypatch):
 def test_label_box_ignores_text_drawn_after_the_label(monkeypatch):
 	# a footer line after the signature label (drawn later, far left) must not pull the box to the left
 	monkeypatch.setitem(connector.CFG, "stamp_box", "auto")
-	pdf = minimal_pdf([("For Example Traders", 420, 120, 9), ("Authorised Signatory", 444, 50, 9), ("E. & O.E.", 46, 30, 7)])
+	pdf = minimal_pdf(
+		[("For Example Traders", 420, 120, 9), ("Authorised Signatory", 444, 50, 9), ("E. & O.E.", 46, 30, 7)]
+	)
 	page, (x1, y1, x2, y2) = connector.sign_spots(reader(pdf))[0]
 	assert x2 > 444 and x2 - x1 == connector.STAMP_WIDTH
 
@@ -154,11 +162,13 @@ def test_cert_info_and_stamp_details():
 
 
 def test_pick_signing_cert_prefers_signing_key_usage():
-	certs = [(b"\x01", self_signed("SAME NAME", sign_usage=False, serial=1), "enc"),
-	         (b"\x02", self_signed("SAME NAME", sign_usage=True, serial=2), "sig")]
+	certs = [
+		(b"\x01", self_signed("SAME NAME", sign_usage=False, serial=1), "enc"),
+		(b"\x02", self_signed("SAME NAME", sign_usage=True, serial=2), "sig"),
+	]
 	assert connector.pick_signing_cert(certs)[2] == "sig"
 	assert connector.pick_signing_cert(certs, private_ids={b"\x02"})[2] == "sig"
-	assert connector.pick_signing_cert([])  is None
+	assert connector.pick_signing_cert([]) is None
 
 
 class _Req:

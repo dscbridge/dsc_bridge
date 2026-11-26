@@ -7,14 +7,17 @@ from dsc_bridge import api
 test_ignore = ["ToDo", "DocType", "User", "Role", "Print Format", "Module Def", "File"]
 
 
-
 def make_pdf(signed):
 	"""A valid one-page PDF (Frappe parses uploads with pypdf); with signed=True it carries a signature field
 	and a /Sig dictionary with a ByteRange, the marks validate_signed_pdf looks for."""
 	objs = [
-		b"<< /Type /Catalog /Pages 2 0 R" + (b" /AcroForm << /Fields [4 0 R] /SigFlags 3 >>" if signed else b"") + b" >>",
+		b"<< /Type /Catalog /Pages 2 0 R"
+		+ (b" /AcroForm << /Fields [4 0 R] /SigFlags 3 >>" if signed else b"")
+		+ b" >>",
 		b"<< /Type /Pages /Kids [3 0 R] /Count 1 >>",
-		b"<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842]" + (b" /Annots [4 0 R]" if signed else b"") + b" >>",
+		b"<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842]"
+		+ (b" /Annots [4 0 R]" if signed else b"")
+		+ b" >>",
 	]
 	if signed:
 		objs += [
@@ -44,7 +47,9 @@ def enable(doctype, submitted_only=0):
 	settings.enabled = 1
 	settings.keep_log = 1
 	if not any(r.document_type == doctype for r in settings.document_types):
-		settings.append("document_types", {"document_type": doctype, "submitted_only": submitted_only, "reason": "Test"})
+		settings.append(
+			"document_types", {"document_type": doctype, "submitted_only": submitted_only, "reason": "Test"}
+		)
 	settings.save(ignore_permissions=True)
 
 
@@ -71,8 +76,14 @@ class TestAttach(FrappeTestCase):
 	def test_attach_signed_pdf_and_log(self):
 		doc = self.todo()
 		out = api.attach(
-			"ToDo", doc.name, SIGNED, print_format="Standard", reason="Test", location="Delhi",
-			signer="TEST SIGNER", cert=CERT,
+			"ToDo",
+			doc.name,
+			SIGNED,
+			print_format="Standard",
+			reason="Test",
+			location="Delhi",
+			signer="TEST SIGNER",
+			cert=CERT,
 		)
 		self.assertTrue(out["file_name"].endswith("-DSC.pdf"))
 		file_doc = frappe.get_doc("File", {"attached_to_doctype": "ToDo", "attached_to_name": doc.name})
@@ -137,7 +148,13 @@ class TestAttach(FrappeTestCase):
 		email = "dsc-bridge-nobody@example.com"
 		if not frappe.db.exists("User", email):
 			frappe.get_doc(
-				{"doctype": "User", "email": email, "first_name": "Nobody", "send_welcome_email": 0, "user_type": "Website User"}
+				{
+					"doctype": "User",
+					"email": email,
+					"first_name": "Nobody",
+					"send_welcome_email": 0,
+					"user_type": "Website User",
+				}
 			).insert(ignore_permissions=True)
 		frappe.set_user(email)
 		try:

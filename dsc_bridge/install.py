@@ -43,7 +43,9 @@ def ensure_print_format():
 	so a user's own edit of it is never overwritten."""
 	if not frappe.db.exists("DocType", "Sales Invoice") or not frappe.db.exists("Module Def", "DSC Bridge"):
 		return
-	html = frappe.read_file(frappe.get_app_path("dsc_bridge", "templates", "print_formats", "dsc_bridge_invoice.html"))
+	html = frappe.read_file(
+		frappe.get_app_path("dsc_bridge", "templates", "print_formats", "dsc_bridge_invoice.html")
+	)
 	if frappe.db.exists("Print Format", PRINT_FORMAT):
 		current = frappe.db.get_value("Print Format", PRINT_FORMAT, "html") or ""
 		if MARKER in current and current != html:

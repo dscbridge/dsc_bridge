@@ -60,7 +60,11 @@ def attach_signed_pdf(
 	cert: str | None = None,
 ):
 	"""Attach the signed PDF (multipart field "file") to the document and write a DSC Sign Log entry."""
-	upload = frappe.request.files.get("file") if getattr(frappe, "request", None) and frappe.request.files else None
+	upload = (
+		frappe.request.files.get("file")
+		if getattr(frappe, "request", None) and frappe.request.files
+		else None
+	)
 	if upload is None:
 		frappe.throw(_("No signed PDF was received."))
 	content = upload.stream.read()
